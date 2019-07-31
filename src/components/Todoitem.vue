@@ -3,10 +3,17 @@
     <p>
       <input type="checkbox" v-on:change="markComplete" />
       {{ todo.title }}
+      <button @click="editTodo(todo)" class="edit">Edit</button>
+      <button @click="$emit('del-todo', todo.id)" class="del">X</button>
+      <br />
+      <input
+        type="text"
+        v-model="todo.title"
+        @keyup.enter="doneEdit(todo)"
+        v-show="todo == activeEdit"
+      />
       <br />
       {{todo.time}}
-      <button @click="$emit('edit-todo', todo.id)" class="edit">Edit</button>
-      <button @click="$emit('del-todo', todo.id)" class="del">X</button>
     </p>
   </div>
 </template>
@@ -14,10 +21,26 @@
 <script>
 export default {
   name: "Todoitem",
+  data: {
+    todos: [],
+    newTodo: "",
+    activeEdit: null,
+    completed: false
+  },
   props: ["todo"],
   methods: {
     markComplete() {
       this.todo.completed = !this.todo.completed;
+    },
+    editTodo(todo) {
+      this.activeEdit = todo;
+    },
+    doneEdit(todo) {
+      if (!this.activeEdit) {
+        return;
+      }
+      this.activeEdit = null;
+      todo.title = todo.title.trim();
     }
   }
 };

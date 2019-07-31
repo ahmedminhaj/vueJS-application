@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <AddTodo v-on:add-todo="addTodo" />
-    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" v-on:edit-todo="updateTodo" />
+    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
   </div>
 </template>
 
@@ -25,12 +25,14 @@ export default {
           id: 1,
           title: "Make breakfast",
           time: Date(),
+          activeEdit: null,
           completed: false
         },
         {
           id: 2,
           title: "Get ready for work",
           time: Date(),
+          activeEdit: null,
           completed: false
         }
       ]
@@ -42,11 +44,6 @@ export default {
     },
     addTodo(newTodo) {
       this.todos = [...this.todos, newTodo];
-    },
-    updateTodo(id) {
-      this.todos[
-        this.todos.findIndex(todo => todo.title === id.oldTitle)
-      ].title = id.title;
     }
   }
 };

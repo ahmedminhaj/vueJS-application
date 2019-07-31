@@ -24,6 +24,7 @@ export default {
         id: uuid.v4(),
         title: this.title,
         time: Date(),
+        activeEdit: null,
         completed: false
       };
       this.$emit("add-todo", newTodo);
